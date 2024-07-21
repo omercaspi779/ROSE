@@ -8,6 +8,7 @@ driver_name = "No Driver"
 def drive(world):
     x = world.car.x
     y = world.car.y
+    yoav = 1
 
     try:
         obstacle = world.get((x, y - 1))
