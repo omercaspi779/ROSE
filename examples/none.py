@@ -14,7 +14,15 @@ def drive(world):
             return actions.NONE
         elif obstacle == obstacles.PENGUIN:
             return actions.PICKUP
+
         if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN:
+
+            for i in range(9):
+                if world.get((x-1, y-i)) == obstacles.PENGUIN:
+                    return actions.LEFT
+                if world.get((x+1, y-i)) == obstacles.PENGUIN:
+                    return actions.RIGHT
+
             if world.get((x - 1, y)) == obstacles.NONE:
                 return actions.LEFT
             elif world.get((x + 1, y)) == obstacles.NONE:
@@ -22,6 +30,7 @@ def drive(world):
             elif obstacle == obstacles.CRACK:
                 return actions.JUMP
         return actions.NONE
+
     except IndexError:
         return actions.NONE
     else:
