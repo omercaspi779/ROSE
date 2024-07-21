@@ -8,14 +8,12 @@ driver_name = "No Driver"
 def drive(world):
     x = world.car.x
     y = world.car.y
+    yoav = 1
+    harel = 100
 
     try:
         obstacle = world.get((x, y - 1))
     except IndexError:
         pass
-    else:
-        pass
 
-    if obstacles.NONE:
-        return actions.NONE
-
+    return actions.NONE
