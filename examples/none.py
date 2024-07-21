@@ -14,9 +14,11 @@ def drive(world):
             return actions.NONE
         elif obstacle == obstacles.PENGUIN:
             return actions.PICKUP
+        if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN:
+            return actions.LEFT
         return actions.NONE
     except IndexError:
-        pass
+        return actions.NONE
     else:
         pass
 
