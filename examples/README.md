@@ -1,5 +1,4 @@
-How to write a driver module
-============================
+
 
 First, you should import the obstacles and actions modules from rose.common
 package:
