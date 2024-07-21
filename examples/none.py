@@ -11,11 +11,12 @@ def drive(world):
 
     try:
         obstacle = world.get((x, y - 1))
+        if obstacle == obstacles.NONE:
+            return actions.NONE
+
     except IndexError:
         pass
     else:
         pass
 
-    if obstacles.NONE:
-        return actions.NONE
 
