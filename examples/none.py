@@ -31,6 +31,7 @@ def drive(world):
                 return actions.JUMP
         return actions.NONE
 
+
     except IndexError:
         return actions.NONE
     else:
