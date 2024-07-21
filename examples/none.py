@@ -19,6 +19,8 @@ def drive(world):
                 return actions.LEFT
             elif world.get((x + 1, y)) == obstacles.NONE:
                 return actions.RIGHT
+            elif obstacle == obstacles.CRACK:
+                return actions.JUMP
         return actions.NONE
     except IndexError:
         return actions.NONE
