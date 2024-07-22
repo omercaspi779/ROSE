@@ -10,16 +10,17 @@ def drive(world):
     y = world.car.y
     try:
         obstacle = world.get((x, y - 1))
+
+        if world.get((x-1, y - 2)) == obstacles.PENGUIN:
+            return actions.LEFT
+        elif world.get((x+1, y - 2)) == obstacles.PENGUIN:
+            return actions.RIGHT
+
         if obstacle == obstacles.NONE:
             return actions.NONE
         elif obstacle == obstacles.PENGUIN:
             return actions.PICKUP
 
-
-        if world.get((x - 1, y)) == obstacles.NONE:
-            return actions.LEFT
-        if world.get((x + 1, y)) == obstacles.NONE:
-            return actions.RIGHT
 
         if obstacle == obstacles.CRACK:
             return actions.JUMP
