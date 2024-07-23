@@ -11,19 +11,29 @@ def drive(world):
     try:
         obstacle = world.get((x, y - 1))
 
+        if obstacle == obstacles.PENGUIN:
+            return actions.PICKUP
         if world.get((x-1, y - 2)) == obstacles.PENGUIN:
             return actions.LEFT
         elif world.get((x+1, y - 2)) == obstacles.PENGUIN:
             return actions.RIGHT
 
-        if obstacle == obstacles.NONE:
-            return actions.NONE
-        elif obstacle == obstacles.PENGUIN:
-            return actions.PICKUP
-
-
         if obstacle == obstacles.CRACK:
             return actions.JUMP
+
+        if obstacle == obstacles.WATER:
+            return actions.BRAKE
+        if world.get((x-1, y - 2)) == obstacles.WATER:
+            return actions.BRAKE
+        elif world.get((x+1, y - 2)) == obstacles.WATER:
+            return actions.BRAKE
+
+
+
+        if obstacle == obstacles.NONE:
+            return actions.NONE
+
+
 
         if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN: #obstacle infront me
             safe_steps_left = 0
@@ -44,6 +54,8 @@ def drive(world):
                     left_penguines+=1
                 else:
                     end_left=False
+                if safe_steps_left == 7:
+                    end_left = False
                 counter_left+=1
 
             while end_right:
@@ -53,6 +65,8 @@ def drive(world):
                     right_penguines+=1
                 else:
                     end_right=False
+                if safe_steps_right == 7:
+                    end_right = False
                 counter_right+=1
 
             if safe_steps_left > safe_steps_right: #prefer the left
