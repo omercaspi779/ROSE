@@ -20,13 +20,17 @@ def drive(world):
 
         if obstacle == obstacles.CRACK:
             return actions.JUMP
+        if world.get((x-1, y - 2)) == obstacles.CRACK:
+            return actions.LEFT
+        elif world.get((x+1, y - 2)) == obstacles.CRACK:
+            return actions.RIGHT
 
         if obstacle == obstacles.WATER:
             return actions.BRAKE
         if world.get((x-1, y - 2)) == obstacles.WATER:
-            return actions.BRAKE
+            return actions.LEFT
         elif world.get((x+1, y - 2)) == obstacles.WATER:
-            return actions.BRAKE
+            return actions.RIGHT
 
 
 
@@ -35,7 +39,7 @@ def drive(world):
 
 
 
-        if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN: #obstacle infront me
+        if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN and obstacle != obstacles.WATER and obstacle != obstacles.CRACK: #obstacle infront me
             safe_steps_left = 0
             left_penguines=0
             counter_left=0
@@ -48,7 +52,7 @@ def drive(world):
             end_right = True
 
             while end_left:
-                if world.get((x-1, y-counter_left)) == obstacles.NONE or world.get((x-1, y-counter_left)) == obstacles.PENGUIN: #left
+                if world.get((x-1, y-counter_left)) == obstacles.NONE or world.get((x-1, y-counter_left)) == obstacles.PENGUIN or world.get((x-1, y-counter_left)) == obstacles.WATER or world.get((x-1, y-counter_left)) == obstacles.CRACK: #left
                     safe_steps_left+=1
                 if world.get((x-1, y-counter_left)) == obstacles.PENGUIN:
                     left_penguines+=1
@@ -59,7 +63,7 @@ def drive(world):
                 counter_left+=1
 
             while end_right:
-                if world.get((x+1, y-counter_right)) == obstacles.NONE or world.get((x+1, y-counter_right)) == obstacles.PENGUIN: #left
+                if world.get((x+1, y-counter_right)) == obstacles.NONE or world.get((x+1, y-counter_right)) == obstacles.PENGUIN or world.get((x+1, y-counter_left)) == obstacles.WATER or world.get((x+1, y-counter_left)) == obstacles.CRACK: #right
                     safe_steps_right+=1
                 if world.get((x+1, y-counter_right)) == obstacles.PENGUIN:
                     right_penguines+=1
