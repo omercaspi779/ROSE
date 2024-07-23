@@ -18,19 +18,33 @@ def drive(world):
         elif world.get((x+1, y - 2)) == obstacles.PENGUIN:
             return actions.RIGHT
 
+
         if obstacle == obstacles.CRACK:
             return actions.JUMP
+
         if world.get((x-1, y - 2)) == obstacles.CRACK:
-            return actions.LEFT
-        elif world.get((x+1, y - 2)) == obstacles.CRACK:
-            return actions.RIGHT
+            if world.get((x-1, y - 1)) == obstacles.NONE or world.get((x-1, y - 1)) == obstacles.CRACK or world.get((x-1, y - 1)) == obstacles.WATER or world.get((x-1, y - 1)) == obstacles.PENGUIN:
+                return actions.LEFT
+            else:
+                return actions.NONE
+        if world.get((x + 1, y - 2)) == obstacles.CRACK:
+            if world.get((x+1, y - 1)) == obstacles.NONE or world.get((x+1, y - 1)) == obstacles.CRACK or world.get((x+1, y - 1)) == obstacles.WATER or world.get((x+1, y - 1)) == obstacles.PENGUIN:
+                return actions.RIGHT
+            else:
+                return actions.NONE
 
         if obstacle == obstacles.WATER:
             return actions.BRAKE
         if world.get((x-1, y - 2)) == obstacles.WATER:
-            return actions.LEFT
-        elif world.get((x+1, y - 2)) == obstacles.WATER:
-            return actions.RIGHT
+            if world.get((x-1, y - 1)) == obstacles.NONE or world.get((x-1, y - 1)) == obstacles.CRACK or world.get((x-1, y - 1)) == obstacles.WATER or world.get((x-1, y - 1)) == obstacles.PENGUIN:
+                return actions.LEFT
+            else:
+                return actions.NONE
+        if world.get((x + 1, y - 2)) == obstacles.WATER:
+            if world.get((x+1, y - 1)) == obstacles.NONE or world.get((x+1, y - 1)) == obstacles.CRACK or world.get((x+1, y - 1)) == obstacles.WATER or world.get((x+1, y - 1)) == obstacles.PENGUIN:
+                return actions.RIGHT
+            else:
+                return actions.NONE
 
 
 
@@ -89,15 +103,61 @@ def drive(world):
 
     except IndexError:
         if x == 5:
-            if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN:
+            if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN and obstacle!= obstacles.WATER and obstacle != obstacles.CRACK:
                 return actions.LEFT
             elif obstacle == obstacles.PENGUIN:
                 return actions.PICKUP
+            elif obstacle == obstacles.CRACK:
+                return actions.JUMP
+            elif obstacle == obstacles.WATER:
+                return actions.BRAKE
+
+            if world.get((x - 1, y - 2)) == obstacles.PENGUIN:
+                return actions.LEFT
+
+            if world.get((x - 1, y - 2)) == obstacles.CRACK:
+                if world.get((x - 1, y - 1)) == obstacles.NONE or world.get(
+                        (x - 1, y - 1)) == obstacles.CRACK or world.get((x - 1, y - 1)) == obstacles.WATER or world.get(
+                        (x - 1, y - 1)) == obstacles.PENGUIN:
+                    return actions.LEFT
+                else:
+                    return actions.NONE
+
+            if world.get((x - 1, y - 2)) == obstacles.WATER:
+                if world.get((x - 1, y - 1)) == obstacles.NONE or world.get((x - 1, y - 1)) == obstacles.CRACK or world.get((x - 1, y - 1)) == obstacles.WATER or world.get((x - 1, y - 1)) == obstacles.PENGUIN:
+                    return actions.LEFT
+                else:
+                    return actions.NONE
+
+
         elif x == 0:
-            if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN:
+            if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN and obstacle!= obstacles.WATER and obstacle != obstacles.CRACK:
                 return actions.RIGHT
             elif obstacle == obstacles.PENGUIN:
                 return actions.PICKUP
+            elif obstacle == obstacles.CRACK:
+                return actions.JUMP
+            elif obstacle == obstacles.WATER:
+                return actions.BRAKE
+
+            elif world.get((x + 1, y - 2)) == obstacles.PENGUIN:
+                return actions.RIGHT
+
+            if world.get((x + 1, y - 2)) == obstacles.CRACK:
+                if world.get((x + 1, y - 1)) == obstacles.NONE or world.get(
+                        (x + 1, y - 1)) == obstacles.CRACK or world.get((x + 1, y - 1)) == obstacles.WATER or world.get(
+                        (x + 1, y - 1)) == obstacles.PENGUIN:
+                    return actions.RIGHT
+                else:
+                    return actions.NONE
+
+            if world.get((x + 1, y - 2)) == obstacles.WATER:
+                if world.get((x + 1, y - 1)) == obstacles.NONE or world.get(
+                        (x + 1, y - 1)) == obstacles.CRACK or world.get((x + 1, y - 1)) == obstacles.WATER or world.get(
+                        (x + 1, y - 1)) == obstacles.PENGUIN:
+                    return actions.RIGHT
+                else:
+                    return actions.NONE
 
         return actions.NONE
     else:
