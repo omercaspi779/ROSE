@@ -70,6 +70,17 @@ def drive(world):
 
 
     except IndexError:
+        if x == 5:
+            if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN:
+                return actions.LEFT
+            elif obstacle == obstacles.PENGUIN:
+                return actions.PICKUP
+        elif x == 0:
+            if obstacle != obstacles.NONE and obstacle != obstacles.PENGUIN:
+                return actions.RIGHT
+            elif obstacle == obstacles.PENGUIN:
+                return actions.PICKUP
+
         return actions.NONE
     else:
         pass
