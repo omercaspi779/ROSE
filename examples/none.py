@@ -13,14 +13,15 @@ def drive(world):
 
         if obstacle == obstacles.PENGUIN:
             return actions.PICKUP
-        if world.get((x-1, y - 2)) == obstacles.PENGUIN:
+        if world.get((x - 1, y - 2)) == obstacles.PENGUIN:
             return actions.LEFT
-        elif world.get((x+1, y - 2)) == obstacles.PENGUIN:
+        if world.get((x + 1, y - 2)) == obstacles.PENGUIN:
             return actions.RIGHT
 
 
         if obstacle == obstacles.CRACK:
             return actions.JUMP
+
 
         if world.get((x-1, y - 2)) == obstacles.CRACK:
             if world.get((x-1, y - 1)) == obstacles.NONE or world.get((x-1, y - 1)) == obstacles.CRACK or world.get((x-1, y - 1)) == obstacles.WATER or world.get((x-1, y - 1)) == obstacles.PENGUIN:
