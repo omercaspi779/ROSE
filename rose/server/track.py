@@ -13,10 +13,7 @@ class Track(object):
         """Go to the next game state"""
         self._matrix.pop()
         self._matrix.insert(0, self._generate_row())
-        path2 = r"C:\Users\user\Desktop\red hut camp\ROSE\rose\server\map.txt"
-        # path2.parent.mkdir(parents=True, exist_ok=True)
-        with open(path2, "a") as f:
-            f.write(self._generate_row())
+
 
 
     def state(self):

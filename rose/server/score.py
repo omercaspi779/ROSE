@@ -51,22 +51,15 @@ def process(players, track):
     positions = set()
 
     # Now handle obstacles, preferring players in their own lane.
-    safe_steppr = 0
     for player in sorted_players:
         obstacle = track.get(player.x, player.y)
 
         if obstacle == obstacles.NONE:
-            player.safe_steppr+=1
-
-            print("\n\n\n\n\n\n\nw20\n\n\n\n\n")
-            print(safe_steppr)
-            print("\n\n\n\n")
+            player.safe_stepper+=1
 
             # Move forward, leaving the obstacle on the track.
             player.score += config.score_move_forward
-            if safe_steppr > 4:
-                print("\n\n\n\n\n\n\nw100\n\n\n\n\n")
-
+            if player.safe_stepper > 14:
                 player.score += config.score_extra_safe
             log.debug(
                 "player %s hit no obstacle: got %d points",
@@ -75,10 +68,9 @@ def process(players, track):
             )
 
         elif obstacle in (obstacles.TRASH, obstacles.BIKE, obstacles.BARRIER):
-            print("\n\n\n\n\n\n\nw1\n\n\n\n\n")
 
 
-            safe_steppr = 0
+            player.safe_stepper = 0
             # Move back consuming the obstacle.
             track.clear(player.x, player.y)
             player.y += 1
@@ -105,7 +97,7 @@ def process(players, track):
                 )
             else:
                 # Move back consuming the obstacle.
-                safe_steppr = 0
+                safe_stepper = 0
                 print("\n\n\n\n\n\n\nw1\n\n\n\n\n")
 
                 track.clear(player.x, player.y)
@@ -135,7 +127,6 @@ def process(players, track):
                 # Move back consuming the obstacle.
                 print("\n\n\n\n\n\n\nw1\n\n\n\n\n")
 
-                safe_steppr = 0
                 track.clear(player.x, player.y)
                 player.y += 1
                 player.score += config.score_move_backward
@@ -150,7 +141,7 @@ def process(players, track):
 
         elif obstacle == obstacles.PENGUIN:
             if player.action == actions.PICKUP:
-                safe_steppr += 1
+                player.safe_stepper += 1
 
                 # Move forward and collect an aquatic bird
                 track.clear(player.x, player.y)

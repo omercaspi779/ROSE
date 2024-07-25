@@ -29,6 +29,7 @@ class Player(object):
         self.y = None
         self.action = None
         self.response_time = None
+        self.safe_stepper = 0
         self.score = None
         self.reset()
 
@@ -37,12 +38,15 @@ class Player(object):
     def update(self):
         """Go to the next game state"""
 
+
     def reset(self):
         self.x = self.lane * config.cells_per_player + 1  # | |0| | |1 | |
         self.y = config.matrix_height // 3 * 2  # 1/3 of track
         self.action = actions.NONE
         self.response_time = None
         self.score = 0
+        self.safe_stepper = 0
+
 
     def in_lane(self):
         current_lane = self.x // config.cells_per_player

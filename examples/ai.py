@@ -45,7 +45,7 @@ button_y = screen_center_y - button_height // 2
 
 
 class Button:
-    def __init__(self, width, height, x, y):
+    def _init_(self, width, height, x, y):
         self.width = width
         self.height = height
         self.x = x
@@ -74,7 +74,7 @@ class Button:
 
 
 class Coustum_button:
-    def __init__(self, width, height, x, y, icon):
+    def _init_(self, width, height, x, y, icon):
         self.width = width
         self.height = height
         self.x = x
@@ -90,7 +90,7 @@ class Coustum_button:
 
 
 class User:
-    def __init__(self, user_name, password):
+    def _init_(self, user_name, password):
         self.user_name = user_name
         self.password = password
         self.level = "1"
@@ -199,7 +199,7 @@ class User:
 
 
 class TextBox:
-    def __init__(self, x, y, width, height, font, user_text):
+    def _init_(self, x, y, width, height, font, user_text):
         self.rect = pygame.Rect(x, y, width, height)
         self.color = (0, 0, 0)
         self.user_text = user_text
@@ -577,13 +577,10 @@ complete_path = False
 
 def process2():
     venv_ =r".venv\rose\Scripts\activate"
-    process2 = subprocess.run(
-        f'cmd /c "{venv_} && echo Activation successful && set"',
-        cwd=r"C:\Users\user\Desktop\red hut camp",
-        capture_output=True,
-        text=True,
-        shell=True
-    )
+    process2 = subprocess.Popen(
+        ['python', "rose-client", "-s", "127.0.0.1", r"C:\Users\user\Desktop\red hut camp\ROSE\examples\none.py"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE)
     return process2
 
 def connect_client(come_from_server):
@@ -654,7 +651,6 @@ def connect_client(come_from_server):
     text_width2 = smallfont_4.size(new_text_client)[0]
     if text_width2 <= 990 and complete_ip is False:
         ip_text = new_text_client
-
     text_5 = smallfont_4.render(path_text, True, color)
     text_rect_ = text_5.get_rect(topleft=(password_box_2.rect.x + 5, password_box_2.rect.y + 5))
     if text_rect_.w <= 990:
@@ -665,11 +661,17 @@ def connect_client(come_from_server):
         screen.blit(text_1, (username_box_2.rect.x + 5, username_box_2.rect.y + 8))
     os.chdir(r"C:\Users\user\Desktop\red hut camp")
     venv_python = r".venv\rose\Scripts\activate"
-    process2()
+    subprocess.run(
+        f'cmd /c "{venv_python} && echo Activation successful && set"',
+        cwd=r"C:\Users\user\Desktop\red hut camp",
+        capture_output=True,
+        text=True,
+        shell=True
+    )
+
     os.chdir(r"C:\Users\user\Desktop\red hut camp\ROSE")
-    subprocess.Popen(['python', "rose-client", "-s", "127.0.0.1", r"C:\Users\user\Desktop\red hut camp\ROSE\examples\none.py"],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
+    process2()
+
     if come_from_server:
         return "connect client come from start server"
     else:
