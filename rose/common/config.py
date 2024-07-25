@@ -36,7 +36,7 @@ max_players = 2
 cells_per_player = matrix_width // max_players
 
 # Score Points
-
+score_extra_safe = 500
 score_move_forward = 10
 score_move_backward = -10
 score_pickup = 10

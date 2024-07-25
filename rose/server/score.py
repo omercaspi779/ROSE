@@ -19,23 +19,29 @@ def process(players, track):
 
     for player in players.values():
         if player.action == actions.LEFT:
-            if player.x > 0:
-                player.x -= 1
-                log.debug(
-                    "player %s moved left to %d,%d",
-                    player.name,
-                    player.x,
-                    player.y,
-                )
+            player.x -= 1
+            if player.x < 0:
+
+                player.x = config.matrix_width - 1
+
+            log.debug(
+                "player %s moved left to %d,%d",
+                player.name,
+                player.x,
+                player.y,
+            )
+
         elif player.action == actions.RIGHT:
-            if player.x < config.matrix_width - 1:
-                player.x += 1
-                log.debug(
-                    "player %s moved right to %d,%d",
-                    player.name,
-                    player.x,
-                    player.y,
-                )
+            player.x += 1
+
+            player.x %= config.matrix_width
+            log.debug(
+                "player %s moved right to %d,%d",
+                player.name,
+                player.x,
+                player.y,
+            )
+
 
     # Proccess the players by order, first the ones in lane and then
     # the ones out of lane, this ensure the car in lane will have
@@ -45,13 +51,23 @@ def process(players, track):
     positions = set()
 
     # Now handle obstacles, preferring players in their own lane.
-
+    safe_steppr = 0
     for player in sorted_players:
         obstacle = track.get(player.x, player.y)
 
         if obstacle == obstacles.NONE:
+            player.safe_steppr+=1
+
+            print("\n\n\n\n\n\n\nw20\n\n\n\n\n")
+            print(safe_steppr)
+            print("\n\n\n\n")
+
             # Move forward, leaving the obstacle on the track.
             player.score += config.score_move_forward
+            if safe_steppr > 4:
+                print("\n\n\n\n\n\n\nw100\n\n\n\n\n")
+
+                player.score += config.score_extra_safe
             log.debug(
                 "player %s hit no obstacle: got %d points",
                 player.name,
@@ -59,6 +75,10 @@ def process(players, track):
             )
 
         elif obstacle in (obstacles.TRASH, obstacles.BIKE, obstacles.BARRIER):
+            print("\n\n\n\n\n\n\nw1\n\n\n\n\n")
+
+
+            safe_steppr = 0
             # Move back consuming the obstacle.
             track.clear(player.x, player.y)
             player.y += 1
@@ -85,6 +105,9 @@ def process(players, track):
                 )
             else:
                 # Move back consuming the obstacle.
+                safe_steppr = 0
+                print("\n\n\n\n\n\n\nw1\n\n\n\n\n")
+
                 track.clear(player.x, player.y)
                 player.y += 1
                 player.score += config.score_move_backward
@@ -110,6 +133,9 @@ def process(players, track):
                 )
             else:
                 # Move back consuming the obstacle.
+                print("\n\n\n\n\n\n\nw1\n\n\n\n\n")
+
+                safe_steppr = 0
                 track.clear(player.x, player.y)
                 player.y += 1
                 player.score += config.score_move_backward
@@ -124,6 +150,8 @@ def process(players, track):
 
         elif obstacle == obstacles.PENGUIN:
             if player.action == actions.PICKUP:
+                safe_steppr += 1
+
                 # Move forward and collect an aquatic bird
                 track.clear(player.x, player.y)
                 points = config.score_move_forward + config.score_pickup
