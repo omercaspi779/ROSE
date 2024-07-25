@@ -605,10 +605,21 @@ def connect_client(come_from_server):
     username_text_2 = smallfont_4.render(f'enter server ip(if the server is on your computer just press enter):', True, color)
     screen.blit(username_text_2, (200, 180))
     load_data()
+    os.chdir(r"C:\Users\user\Desktop\red hut camp")
+    venv_python = r".venv\rose\Scripts\activate"
+    subprocess.run(
+        f'cmd /c "{venv_python} && echo Activation successful && set"',
+        cwd=r"C:\Users\user\Desktop\red hut camp",
+        capture_output=True,
+        text=True,
+        shell=True
+    )
+    os.chdir(r"C:\Users\user\Desktop\red hut camp\ROSE")
+    pro = process2()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             os.kill(process.pid, signal.SIGINT)
-            os.kill(process2().pid, signal.SIGINT)
+            os.kill(pro.pid, signal.SIGINT)
             return 'quit'
         if event.type == pygame.MOUSEBUTTONDOWN:
             if back_to_start_button.mouse_over_button(mouse_pos):
@@ -619,7 +630,7 @@ def connect_client(come_from_server):
                 complete_path = False
                 complete_ip = False
                 os.kill(process.pid, signal.SIGINT)
-                os.kill(process2().pid, signal.SIGINT)
+                os.kill(pro.pid, signal.SIGINT)
                 return "start2"
         if event.type == pygame.TEXTINPUT:
             if complete_ip is False:
